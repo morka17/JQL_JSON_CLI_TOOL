@@ -1,7 +1,8 @@
 extern crate nom;
 
-use nom::{bytes::complete::tag, combinator::value,  IResult, Parser, error::ParseError};
-
+use nom::{
+    branch::alt, bytes::complete::tag, combinator::value, error::ParseError, IResult, Parser,
+};
 
 /*
 JSON quick reference:
@@ -17,16 +18,13 @@ string escapes:
 
 */
 
-
-
-fn parse_null<'i, E: ParseError<&'i str>>(input: &'i str) -> IResult<&str, (), E>{
-    value((), tag( "null")).parse(input) 
+fn parse_null<'i, E: ParseError<&'i str>>(input: &'i str) -> IResult<&'i str, (), E> {
+    value((), tag("null")).parse(input)
 }
 
-fn parse_bool<'i,  E: ParseError<&'i str>>(input: &'i str) -> IResult<&str, (), E>{
-     
+fn parse_bool<'i, E: ParseError<&'i str>>(input: &'i str) -> IResult<&'i str, bool, E> {
+    alt((value(true, tag("true")), value(false, tag("false")))).parse(input)
 }
-
 
 fn main() {
     println!("Hello, world!");
