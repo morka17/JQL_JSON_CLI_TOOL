@@ -241,6 +241,16 @@ fn parse_value<
     .parse(input)
 }
 
+#[test]
+fn test_parse_json() {
+  let input = r##"{"number": 12.5e10, "str": "Hello world!", "escaped": "Hello\nWorld!", "array": [1,2,3,4,5]}"##;
+
+}
+
 fn main() {
-    println!("Hello, world!");
+    let input = r##"{"hello": "world!"}"##;
+
+    let (tail, value ) = parse_value::<()>(input).unwrap();
+
+    println!("{:#?}", value);
 }
